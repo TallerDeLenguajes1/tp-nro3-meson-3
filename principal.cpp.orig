@@ -9,12 +9,21 @@ char Nombres[6][10]={"Ale", "Lola", "Pepito", "Tere", "TT"};
 char Apellidos[6][10]={" Denis", " Gon", " NN", " KKK", " e"};
 
 struct TDatos {
+<<<<<<< HEAD
+
+	enum TRaza Raza;
+=======
 	TRaza Raza;
+>>>>>>> Grupo2
 	char *ApellidoNombre;
 	int edad; 
 	double Salud;
 };
+<<<<<<< HEAD
+
+=======
 typedef struct TDatos TD;
+>>>>>>> Grupo2
 struct TCaracteristicas{
 	int velocidad;
 	int destreza; 
@@ -22,26 +31,26 @@ struct TCaracteristicas{
 	int Nivel; 
 	int Armadura; 
 };
+<<<<<<< HEAD
+
+=======
 typedef struct TCarcteristicas TC;
+>>>>>>> Grupo2
 struct TPersonaje {
 	TDatos * DatosPersonales;
 	TCaracteristicas * Caracteristicas;
 };
 typedef struct TPersonaje TP;
 
+<<<<<<< HEAD
 void cargar_datos(struct TDatos *Datos);
 void mostrar_datos(struct TDatos *Datos);
-void CargarCaracteristicas(TCaracteristicas *puntero);
-void MostrarCaracteristicas(TCaracteristicas *puntero);
 
 int main()
 {
 	struct TDatos *DatosP;//DatosP: datos de personajes
 	int i;
 	i = 0;
-	TCaracteristicas *ptr = (TCaracteristicas *) malloc(sizeof(TCaracteristicas));
-	CargarCaracteristicas(ptr);
-	MostrarCaracteristicas(ptr);
 
 	while(i <3){
 
@@ -81,7 +90,20 @@ void mostrar_datos(struct TDatos *Datos){
 	printf("Nombre: %s\n", Datos -> ApellidoNombre);
 	printf("Edad: %d\n", Datos -> edad);
 	printf("Salud: %.2f\n", Datos -> Salud);
-}
+=======
+void CargarCaracteristicas(TCaracteristicas *puntero);
+void MostrarCaracteristicas(TCaracteristicas *puntero);
+
+
+void main(){	
+	TCaracteristicas *ptr = (TCaracteristicas *) malloc(sizeof(TCaracteristicas));
+	CargarCaracteristicas(ptr);
+	MostrarCaracteristicas(ptr);
+
+
+
+};
+
 void CargarCaracteristicas(TCaracteristicas *puntero){
 	printf("Caracteristicas del personaje: \n");
 	printf("velocidad: \n");
@@ -104,4 +126,5 @@ void MostrarCaracteristicas(TCaracteristicas *puntero){
 	printf("fuerza: %d\n", puntero->fuerza);
 	printf("Nivel: %d\n", puntero->Nivel);
 	printf("Armadura: %d\n", puntero->Armadura);
+>>>>>>> Grupo2
 }
