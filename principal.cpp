@@ -14,6 +14,7 @@ struct TDatos {
 	int edad; 
 	double Salud;
 };
+typedef struct TDatos TDatos;
 
 struct TCaracteristicas{
 	int velocidad;
@@ -23,11 +24,21 @@ struct TCaracteristicas{
 	int Armadura; 
 };
 typedef struct TCarcteristicas TC;
+
 struct TPersonaje {
 	TDatos * DatosPersonales;
 	TCaracteristicas * Caracteristicas;
 };
 typedef struct TPersonaje TP;
+
+struct nodo{
+	TPersonaje DPersonaje;
+	struct nodo * siguiente;
+};
+typedef struct nodo *Lista;
+
+Lista crearLista();
+Lista cargarLista(Lista L, TPersonaje Personaje);
 
 void cargar_datos(struct TDatos *Datos);
 void mostrar_datos(struct TDatos *Datos);
@@ -36,38 +47,39 @@ void MostrarCaracteristicas(TCaracteristicas *puntero);
 
 int main()
 {
-	TPersonaje arregloP[MAX];
-	int N,i, num; // cantidad de jugadores
+	Lista P; // P : personajes
+	TP PNuevo; //PNuevo : Personaje Nuevo
+	int N;
 
-	printf("Ingrese cantidad de Personajes:\n");
-	scanf("%d", &N);
+	P = crearLista();
+	P = cargarLista(P,PNuevo);
 	
-	//*N_Personaje = (TPersonaje *) malloc (sizeof(TPersonaje) * cantidad);
-	arregloP -> Caracteristicas = (TCaracteristicas *) malloc(sizeof(TCaracteristicas) * N);
-	arregloP -> DatosPersonales = (TDatos *) malloc(sizeof(TDatos) * N);
-
-	for (int i = 0; i < N; ++i)
-	{
-		CargarCaracteristicas(arregloP[i].Caracteristicas);
-		cargar_datos(arregloP[i].DatosPersonales);
-		//printf("%d Personaje: \n", i+1, arregloP[i].ApellidoNombre );
-	}
-
-	for (int i = 0; i < 2; ++i)
-	{
-		//Elijo el personajeTPersonaje arregloP[3];
-		printf("Ver Personaje Nro: \n");
-		scanf("%d", &num);
-
-		//Muestra el personaje seleccionado
-		MostrarCaracteristicas(arregloP[num].Caracteristicas);
-		mostrar_datos(arregloP[num].DatosPersonales);
-		
-	}	
-
 	
 	
 	return 0;	
+}
+
+Lista crearLista(){
+	Lista L = NULL;
+	return L;
+}
+
+Lista cargarLista(Lista L, TPersonaje Personaje){
+
+	nodo * nuevoP;
+	nuevoP = (nodo *)malloc(sizeof(nodo));
+
+	nuevoP -> DPersonaje = Personaje;
+	nuevoP-> siguiente = L;
+	L = nuevoP;
+	return L;
+}
+
+void mostrar(Lista L){
+	while(L != NULL){
+		printf("%d\n",L -> DPersonaje);
+		L = L -> siguiente;
+	}
 }
 
 void cargar_datos(struct TDatos *Datos){
