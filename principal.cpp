@@ -2,15 +2,14 @@
 #include <stdio.h>
 #include <conio.h>
 #include <string.h>
-
+#define MAX 10
 
 enum TRaza{Orco = 1, Humano = 2, Mago = 3, Enano = 4, Elfo = 5};
 char Nombres[6][10]={"Ale", "Lola", "Pepito", "Tere", "TT"};
 char Apellidos[6][10]={" Denis", " Gon", " NN", " KKK", " e"};
 
 struct TDatos {
-
-	enum TRaza Raza;
+	TRaza Raza;
 	char *ApellidoNombre;
 	int edad; 
 	double Salud;
@@ -23,27 +22,50 @@ struct TCaracteristicas{
 	int Nivel; 
 	int Armadura; 
 };
-
+typedef struct TCarcteristicas TC;
 struct TPersonaje {
 	TDatos * DatosPersonales;
 	TCaracteristicas * Caracteristicas;
 };
+typedef struct TPersonaje TP;
 
 void cargar_datos(struct TDatos *Datos);
 void mostrar_datos(struct TDatos *Datos);
+void CargarCaracteristicas(TCaracteristicas *puntero);
+void MostrarCaracteristicas(TCaracteristicas *puntero);
 
 int main()
 {
-	struct TDatos *DatosP;//DatosP: datos de personajes
-	int i;
-	i = 0;
+	TPersonaje arregloP[MAX];
+	int N,i, num; // cantidad de jugadores
 
-	while(i <3){
+	printf("Ingrese cantidad de Personajes:\n");
+	scanf("%d", &N);
+	
+	//*N_Personaje = (TPersonaje *) malloc (sizeof(TPersonaje) * cantidad);
+	arregloP -> Caracteristicas = (TCaracteristicas *) malloc(sizeof(TCaracteristicas) * N);
+	arregloP -> DatosPersonales = (TDatos *) malloc(sizeof(TDatos) * N);
 
-		cargar_datos(DatosP);
-		mostrar_datos(DatosP);
-		i++;
+	for (int i = 0; i < N; ++i)
+	{
+		CargarCaracteristicas(arregloP[i].Caracteristicas);
+		cargar_datos(arregloP[i].DatosPersonales);
+		//printf("%d Personaje: \n", i+1, arregloP[i].ApellidoNombre );
 	}
+
+	for (int i = 0; i < 2; ++i)
+	{
+		//Elijo el personajeTPersonaje arregloP[3];
+		printf("Ver Personaje Nro: \n");
+		scanf("%d", &num);
+
+		//Muestra el personaje seleccionado
+		MostrarCaracteristicas(arregloP[num].Caracteristicas);
+		mostrar_datos(arregloP[num].DatosPersonales);
+		
+	}	
+
+	
 	
 	return 0;	
 }
@@ -76,4 +98,21 @@ void mostrar_datos(struct TDatos *Datos){
 	printf("Nombre: %s\n", Datos -> ApellidoNombre);
 	printf("Edad: %d\n", Datos -> edad);
 	printf("Salud: %.2f\n", Datos -> Salud);
+}
+void CargarCaracteristicas(TCaracteristicas *puntero){
+	puntero -> velocidad = 1+ rand()%(10);
+	puntero -> destreza = 1+ rand()%(5);
+	puntero -> fuerza = 1+ rand()%(10);
+	puntero -> Nivel = 1+ rand()%(10);
+	puntero -> Armadura = 1+ rand()%(10);
+
+}
+
+void MostrarCaracteristicas(TCaracteristicas *puntero){
+	printf("* * * Caracteristicas del personaje * * * \n");
+	printf("velocidad: %d\n", puntero->velocidad);
+	printf("destreza: %d\n", puntero->destreza);
+	printf("fuerza: %d\n", puntero->fuerza);
+	printf("Nivel: %d\n", puntero->Nivel);
+	printf("Armadura: %d\n", puntero->Armadura);
 }
