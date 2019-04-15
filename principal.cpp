@@ -29,7 +29,7 @@ struct TPersonaje {
 	TDatos * DatosPersonales;
 	TCaracteristicas * Caracteristicas;
 };
-typedef struct TPersonaje TP;
+typedef struct TPersonaje TPersonaje;
 
 struct nodo{
 	TPersonaje DPersonaje;
@@ -39,22 +39,38 @@ typedef struct nodo *Lista;
 
 Lista crearLista();
 Lista cargarLista(Lista L, TPersonaje Personaje);
+void mostrar(Lista L);
 
 void cargar_datos(struct TDatos *Datos);
 void mostrar_datos(struct TDatos *Datos);
 void CargarCaracteristicas(TCaracteristicas *puntero);
 void MostrarCaracteristicas(TCaracteristicas *puntero);
+void Pelea(TCaracteristicas *Caract, TDatos *Dat);
 
 int main()
 {
 	Lista P; // P : personajes
-	TP PNuevo; //PNuevo : Personaje Nuevo
+	TPersonaje PNuevo; //PNuevo : Personaje Nuevo
 	int N;
+
+	printf("Insertar cantidad de personajes: \n");
+	scanf("%d", &N);
+
 
 	P = crearLista();
 	P = cargarLista(P,PNuevo);
+	TCaracteristicas *ptr = (TCaracteristicas *) malloc(sizeof(TCaracteristicas));
+	CargarCaracteristicas(*ptr);
+	mostrar(P);	
 	
+	//(TCaracteristicas *) malloc(sizeof(TCaracteristicas) * N);
+	//(TDatos *) malloc(sizeof(TDatos) * N);
 	
+	/*CargarCaracteristicas();
+	cargar_datos();
+	//Muestra el personaje seleccionado
+	MostrarCaracteristicas();
+	mostrar_datos();*/
 	
 	return 0;	
 }
@@ -77,7 +93,7 @@ Lista cargarLista(Lista L, TPersonaje Personaje){
 
 void mostrar(Lista L){
 	while(L != NULL){
-		printf("%d\n",L -> DPersonaje);
+		printf("%s\n",L -> DPersonaje);
 		L = L -> siguiente;
 	}
 }
@@ -127,4 +143,25 @@ void MostrarCaracteristicas(TCaracteristicas *puntero){
 	printf("fuerza: %d\n", puntero->fuerza);
 	printf("Nivel: %d\n", puntero->Nivel);
 	printf("Armadura: %d\n", puntero->Armadura);
+}
+
+void Pelea(TCaracteristicas *Caract, TDatos *Dat){
+	int PD, ED, VA, PDEF, DP;
+
+	//● Poder de Disparo: Haga el producto de Destreza * Fuerza * Nivel del	personaje que ataca (PD)
+	PD = (Caract -> destreza) * (Caract -> fuerza) * (Caract -> Nivel); 
+	//● Efectividad de Disparo:Genere un valor aleatorio de 1 a 100. Considerarlo	como valor porcentual (ED)
+	ED = 1 + rand() % 100;
+	//● Valor de Ataque:Al Poder de Disparo lo multiplico por la Efectividad de Disparo. (VA)
+	VA = PD * ED;
+	//Valores de Defensa
+	//● Poder de Defensa: Haga el producto de Armadura * Velocidad del personaje	que defiende (PDEF)
+	PDEF = (Caract -> Armadura) * (Caract -> velocidad);
+	//Resultado del enfrentamiento
+	//● máximo daño provocable: 50000 (MDP)
+	MDP = 50000;
+	//● Daño provocado(DP): Valor de Ataque*Efectividad de Disparo - Poder de Defensa todo eso dividido por el máximo daño provocado (50000) y a todo eso lo multiplico por 100 → 
+	DP =((VA-PDEF)/MDP)*100;
+	//● Actualizar salud del personaje que se defiende Restándole a Salud el Daño	provocado.
+	Dat -> salud = (Dat -> salud) - DP;
 }
